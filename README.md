@@ -14,3 +14,13 @@ The security cameras installed in various places capture video footage. However 
 Repo Info
 ---------------------------------------------
 Git Branch for Graphical User Interface(GUI): feature-gui
+
+
+Repo Structure
+---------------------------------------------
++cascades: for storing haar cascades
++dataset: for storing dataset
++trainer: for storing trainer.yml
+-dataset.py: for creating dataset
+-trainer.py: trainer code
+-recogniser.py: recognise code
