@@ -24,3 +24,15 @@ Repo Structure
 -dataset.py: for creating dataset
 -trainer.py: trainer code
 -recogniser.py: recognise code
+
+Commands
+----------------------------------------------
+1. Create virtual environment by installing virtualenv
+a. Instalation: 
+        i. Linux: #python3 -m pip install --user virtualenv
+        ii. windows: #py -m pip install --user virtualenv
+b. Create virtual env:
+        i. Linux: #python3 -m virtualenv env
+        ii. windows: #py -m virtualenv env
+2. Installing mysql:
+        #python -m pip install mysql-connector
