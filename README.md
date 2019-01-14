@@ -18,12 +18,12 @@ Git Branch for Graphical User Interface(GUI): feature-gui
 
 Repo Structure
 ---------------------------------------------
-+cascades: for storing haar cascades
-+dataset: for storing dataset
-+trainer: for storing trainer.yml
--dataset.py: for creating dataset
--trainer.py: trainer code
--recogniser.py: recognise code
+1. +cascades: for storing haar cascades
+2. +dataset: for storing dataset
+3. +trainer: for storing trainer.yml
+4. -dataset.py: for creating dataset
+5. -trainer.py: trainer code
+6. -recogniser.py: recognise code
 
 Commands
 ----------------------------------------------
@@ -36,3 +36,7 @@ b. Create virtual env:
         ii. windows: #py -m virtualenv env
 2. Installing mysql:
         #python -m pip install mysql-connector
+3. Installing tkinter
+        #sudo apt-get install python3-tk
+        or
+        #sudo apt-get install python3-tkinter
