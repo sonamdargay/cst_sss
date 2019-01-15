@@ -21,9 +21,11 @@ Repo Structure
 1. +cascades: for storing haar cascades
 2. +dataset: for storing dataset
 3. +trainer: for storing trainer.yml
-4. -dataset.py: for creating dataset
-5. -trainer.py: trainer code
-6. -recogniser.py: recognise code
+4. +gui: for gui branch
+5. --cst_ss_db: for database storage
+6. -dataset.py: for creating dataset
+7. -trainer.py: trainer code
+8. -recogniser.py: recognise code
 
 Commands
 ----------------------------------------------
