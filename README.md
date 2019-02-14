@@ -46,11 +46,11 @@ b. Create virtual env:
 
 Errors Solutions
 -----------------------------------------------------
-#For Error
-##Traceback (most recent call last):
-##File ".\trainer.py", line 7, in <module>
-##    recognizer = cv2.face.LBP
-##AttributeError: module 'cv2.cv2' has no attribute 'face'
+For Error
+<b>Traceback (most recent call last):
+File ".\trainer.py", line 7, in <module>
+    recognizer = cv2.face.LBP
+AttributeError: module 'cv2.cv2' has no attribute 'face'</b>
 
 You need to install opencv-contrib
 
