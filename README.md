@@ -54,6 +54,6 @@ AttributeError: module 'cv2.cv2' has no attribute 'face'</b>
 
 You need to install opencv-contrib
 
-pip install opencv-contrib-python
+<b>#pip install opencv-contrib-python</b>
 
 It should work after that.
