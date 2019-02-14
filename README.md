@@ -1,11 +1,13 @@
 Repository Details:
 ----------------------------------------------
 Created by: Sonam Dargay
+<pre>
 Collaborators: 
         1. Karma Samdrup
         2. Rinchen
         3. Suraj Mukhia
         4. Tawmo
+</pre> 
 
 Project Background:
 ----------------------------------------------
@@ -13,19 +15,19 @@ The security cameras installed in various places capture video footage. However 
 
 Repo Info
 ---------------------------------------------
-Git Branch for Graphical User Interface(GUI): feature-gui
+Git Branch for Graphical User Interface(GUI): <b>feature-gui</b>
 
 
 Repo Structure
 ---------------------------------------------
-1. +cascades: for storing haar cascades
+<b>1. +cascades: for storing haar cascades
 2. +dataset: for storing dataset
 3. +trainer: for storing trainer.yml
 4. +gui: for gui branch
 5. --cst_ss_db: for database storage
 6. -dataset.py: for creating dataset
 7. -trainer.py: trainer code
-8. -recogniser.py: recognise code
+8. -recogniser.py: recognise code</b>
 
 Commands
 ----------------------------------------------
