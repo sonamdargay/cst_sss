@@ -32,13 +32,17 @@ Commands
 1. Create virtual environment by installing virtualenv
 a. Instalation: 
 <pre>       
-        i. Linux: #python3 -m pip install --user virtualenv
-        ii. windows: #py -m pip install --user virtualenv 
+        i. Linux: 
+                #python3 -m pip install --user virtualenv
+        ii. windows: 
+                #py -m pip install --user virtualenv 
 </pre> 
 b. Create virtual env:
 <pre> 
-        i. Linux: #python3 -m virtualenv env
-        ii. windows: #py -m virtualenv env
+        i. Linux: 
+                #python3 -m virtualenv env
+        ii. windows: 
+                #py -m virtualenv env
 </pre> 
 2. Installing mysql:
 <pre>
@@ -54,13 +58,16 @@ b. Create virtual env:
 Errors Solutions
 -----------------------------------------------------
 For Error
-<b>Traceback (most recent call last):
+<pre>
+Traceback (most recent call last):
 File ".\trainer.py", line 7, in <module>
     recognizer = cv2.face.LBP
-AttributeError: module 'cv2.cv2' has no attribute 'face'</b>
+AttributeError: module 'cv2.cv2' has no attribute 'face'
+</pre>
 
-You need to install opencv-contrib
-
-<b>#pip install opencv-contrib-python</b>
+<b>You need to install opencv-contrib</b>
+<pre> 
+        #pip install opencv-contrib-python
+<pre> 
 
 It should work after that.
