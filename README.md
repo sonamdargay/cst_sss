@@ -31,18 +31,25 @@ Commands
 ----------------------------------------------
 1. Create virtual environment by installing virtualenv
 a. Instalation: 
+<pre>       
         i. Linux: #python3 -m pip install --user virtualenv
-        ii. windows: #py -m pip install --user virtualenv
+        ii. windows: #py -m pip install --user virtualenv 
+</pre> 
 b. Create virtual env:
+<pre> 
         i. Linux: #python3 -m virtualenv env
         ii. windows: #py -m virtualenv env
+</pre> 
 2. Installing mysql:
+<pre>
         #python -m pip install mysql-connector
+</pre> 
 3. Installing tkinter
+<pre> 
         #sudo apt-get install python3-tk
         or
         #sudo apt-get install python3-tkinter
-
+</pre> 
 
 Errors Solutions
 -----------------------------------------------------
