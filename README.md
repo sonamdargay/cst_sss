@@ -42,3 +42,18 @@ b. Create virtual env:
         #sudo apt-get install python3-tk
         or
         #sudo apt-get install python3-tkinter
+
+
+Errors Solutions
+-----------------------------------------------------
+#For Error
+##Traceback (most recent call last):
+##File ".\trainer.py", line 7, in <module>
+##    recognizer = cv2.face.LBP
+##AttributeError: module 'cv2.cv2' has no attribute 'face'
+
+You need to install opencv-contrib
+
+pip install opencv-contrib-python
+
+It should work after that.
