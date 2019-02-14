@@ -20,14 +20,18 @@ Git Branch for Graphical User Interface(GUI): <b>feature-gui</b>
 
 Repo Structure
 ---------------------------------------------
-<b>1. +cascades: for storing haar cascades
+<b>
+<pre> 
+1. +cascades: for storing haar cascades
 2. +dataset: for storing dataset
 3. +trainer: for storing trainer.yml
 4. +gui: for gui branch
 5. --cst_ss_db: for database storage
 6. -dataset.py: for creating dataset
 7. -trainer.py: trainer code
-8. -recogniser.py: recognise code</b>
+8. -recogniser.py: recognise code
+</pre> 
+</b>
 
 Commands
 ----------------------------------------------
