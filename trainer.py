@@ -4,9 +4,7 @@ from PIL import Image
 import os
 # Path for face image database
 path = 'dataset'
-recognizer = cv2.face.LBP        
-PIL_img = Image.open(imagePath).convert('L') # convert it to grayscale
-HFaceRecognizer_create()
+recognizer = cv2.face.LBPHFaceRecognizer_create()
 detector = cv2.CascadeClassifier("cascades/haarcascade_frontalface_default.xml");
 # function to get the images and label data
 def getImagesAndLabels(path):
@@ -22,7 +20,6 @@ def getImagesAndLabels(path):
             faceSamples.append(img_numpy[y:y+h,x:x+w])
             ids.append(id)
     return faceSamples,ids
-
 print ("\n [INFO] Training faces. It will take a few seconds. Wait ...")
 faces,ids = getImagesAndLabels(path)
 recognizer.train(faces, np.array(ids))
