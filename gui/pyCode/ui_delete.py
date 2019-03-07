@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import sqlite3 
 
 class Ui_remove(object):
     def setupUi(self, remove):
@@ -26,9 +27,9 @@ class Ui_remove(object):
         self.buttonBox = QtWidgets.QDialogButtonBox(remove)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+            
         self.buttonBox.setObjectName("buttonBox")
         self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 2)
-
         self.retranslateUi(remove)
         self.buttonBox.accepted.connect(remove.accept)
         self.buttonBox.rejected.connect(remove.reject)
@@ -37,7 +38,7 @@ class Ui_remove(object):
     def retranslateUi(self, remove):
         _translate = QtCore.QCoreApplication.translate
         remove.setWindowTitle(_translate("remove", "Delete"))
-        self.label.setText(_translate("remove", "Enter Name"))
+        self.label.setText(_translate("remove", "Enter CID"))
 
 
 if __name__ == "__main__":

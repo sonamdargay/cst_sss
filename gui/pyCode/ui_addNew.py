@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import sqlite3
 
 class Ui_addNew(object):
     def setupUi(self, addNew):
@@ -58,6 +59,8 @@ class Ui_addNew(object):
         self.buttonBox.rejected.connect(addNew.reject)
         QtCore.QMetaObject.connectSlotsByName(addNew)
 
+        self.buttonBox.accepted.connect(self.insertAddNew)
+
     def retranslateUi(self, addNew):
         _translate = QtCore.QCoreApplication.translate
         addNew.setWindowTitle(_translate("addNew", "Add New"))
@@ -68,6 +71,22 @@ class Ui_addNew(object):
         self.label_4.setText(_translate("addNew", "Image"))
         self.label_3.setText(_translate("addNew", "CID"))
         self.male.setText(_translate("addNew", "Male"))
+
+    def insertAddNew(self):
+        connection = sqlite3.connect('mySSS.db')
+        cur = connection.cursor() 
+        name = self.name.text()
+        cid = self.cid.text()
+        designation = self.designation.text()
+        print(type(name))
+        print(type(cid))
+        print(type(designation))
+        print(name,cid,designation)
+        cur.execute('''INSERT INTO sample(name,cid,designation) VALUES(?,?,?)''',(name,cid,designation,))
+        connection.commit()
+        connection.close()
+
+
 
 
 if __name__ == "__main__":

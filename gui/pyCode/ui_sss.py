@@ -5,14 +5,15 @@
 # Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
-
+#import sys
+import sqlite3
 from PyQt5 import QtCore, QtGui, QtWidgets
 from ui_addNew import Ui_addNew
 from ui_update import Ui_update
 from ui_delete import Ui_remove
 from ui_view import Ui_view
 
-class Ui_mainWindow(object):
+class Ui_mainWindow(QtWidgets.QMainWindow):
     def openAddNew(self):
         self.window = QtWidgets.QDialog()
         self.ui = Ui_addNew()
@@ -30,6 +31,16 @@ class Ui_mainWindow(object):
         self.ui = Ui_remove()
         self.ui.setupUi(self.deleteDialog)
         self.deleteDialog.show()
+        #conn = sqlite3.connect('mySSS.db')
+        #cur = conn.cursor() 
+        #cids=self.ui.cid.text()
+        #print(type(cids))
+        #cids="qsdf"
+        #print(cids)
+        #cur.execute('''INSERT INTO sample(cid) VALUES(?)''',(cids,))
+        #conn.commit()
+        #conn.close()
+
 
     def openView(self):
         self.viewDialog = QtWidgets.QDialog()
@@ -80,7 +91,8 @@ class Ui_mainWindow(object):
         self.btn_exit.setDefault(False)
         self.btn_exit.setFlat(False)
         self.btn_exit.setObjectName("btn_exit")
-        self.btn_exit.clicked.connect(QtWidgets.QApplication.instance().quit)
+        #self.btn_exit.clicked.connect(QtWidgets.QApplication.instance().quit)
+        self.btn_exit.clicked.connect(self.close_SSS)
 
         self.verticalLayout.addWidget(self.btn_exit)
         self.horizontalLayout.addLayout(self.verticalLayout)
@@ -104,6 +116,14 @@ class Ui_mainWindow(object):
         self.btn_update.setText(_translate("mainWindow", "UPDATE"))
         self.btn_view.setText(_translate("mainWindow", "VIEW"))
         self.btn_exit.setText(_translate("mainWindow", "EXIT"))
+
+    def close_SSS(self):
+        choice = QtWidgets.QMessageBox.question(self,"QuitApp","Are you sure to quit?",
+                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+        if choice == QtWidgets.QMessageBox.Yes:
+            sys.exit()
+        else:
+            pass
 
 
 
