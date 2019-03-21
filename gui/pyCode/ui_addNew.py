@@ -9,7 +9,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sqlite3
 
-class Ui_addNew(object):
+class Ui_addNew(QtWidgets.QMainWindow):
     def setupUi(self, addNew):
         addNew.setObjectName("addNew")
         addNew.resize(455, 301)
@@ -49,6 +49,7 @@ class Ui_addNew(object):
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_3)
         self.male = QtWidgets.QRadioButton(addNew)
         self.male.setObjectName("male")
+        self.male.setChecked(True)
         self.formLayout.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.male)
         self.designation = QtWidgets.QLineEdit(addNew)
         self.designation.setObjectName("designation")
@@ -73,21 +74,39 @@ class Ui_addNew(object):
         self.male.setText(_translate("addNew", "Male"))
 
     def insertAddNew(self):
+        data = list()
+        status=1
         connection = sqlite3.connect('mySSS.db')
         cur = connection.cursor() 
         name = self.name.text()
+        data.append(name)
+
         cid = self.cid.text()
+        data.append(cid)
+
         designation = self.designation.text()
-        print(type(name))
-        print(type(cid))
-        print(type(designation))
-        print(name,cid,designation)
-        cur.execute('''INSERT INTO sample(name,cid,designation) VALUES(?,?,?)''',(name,cid,designation,))
-        connection.commit()
-        connection.close()
+        data.append(designation)
 
+        if self.male.isChecked() == True:
+            gender='male'
+        else:
+            gender='female'
+        data.append(gender)
+        #Validating whether all the values are set or not. If set the person is added to database else not added
+        for value in data:
+            if value == "":
+                status=0
+                break
 
-
+        if status is 0:
+            QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, person could not be added",
+                QtWidgets.QMessageBox.Ok)
+        else:
+            cur.execute('''INSERT INTO sample(name,cid,designation,gender) VALUES(?,?,?,?)''',(name,cid,designation,gender,))
+            connection.commit()
+            connection.close()
+            QtWidgets.QMessageBox.information(self,"Successfull","You have successfully added a new person",
+                QtWidgets.QMessageBox.Ok)
 
 if __name__ == "__main__":
     import sys

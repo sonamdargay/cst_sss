@@ -7,8 +7,9 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import sqlite3
 
-class Ui_update(object):
+class Ui_update(QtWidgets.QMainWindow):
     def setupUi(self, update):
         update.setObjectName("update")
         update.resize(388, 256)
@@ -31,6 +32,7 @@ class Ui_update(object):
         self.formLayout.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.male)
         self.female = QtWidgets.QRadioButton(update)
         self.female.setObjectName("female")
+        self.female.setChecked(True)
         self.formLayout.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.female)
         self.label_3 = QtWidgets.QLabel(update)
         self.label_3.setObjectName("label_3")
@@ -55,6 +57,8 @@ class Ui_update(object):
         self.buttonBox.rejected.connect(update.reject)
         QtCore.QMetaObject.connectSlotsByName(update)
 
+        self.buttonBox.accepted.connect(self.insertUpdate)
+
     def retranslateUi(self, update):
         _translate = QtCore.QCoreApplication.translate
         update.setWindowTitle(_translate("update", "Update"))
@@ -65,6 +69,43 @@ class Ui_update(object):
         self.label_3.setText(_translate("update", "Gender"))
         self.label_4.setText(_translate("update", "Designation"))
         self.label_5.setText(_translate("update", "Image"))
+
+
+    def insertUpdate(self):
+        data = list()
+        status=1
+        connection = sqlite3.connect('mySSS.db')
+        cur = connection.cursor() 
+        name = self.name.text()
+        data.append(name)
+
+        cid = self.cid.text()
+        data.append(cid)
+
+        designation = self.designation.text()
+        data.append(designation)
+
+        if self.male.isChecked() == True:
+            gender='male'
+        else:
+            gender='female'
+        data.append(gender)
+        #Validating whether all the values are set or not. If set the person is added to database else not added
+        for value in data:
+            if value == "":
+                status=0
+                break
+
+        if status is 0:
+            QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, person could not be updated",
+                QtWidgets.QMessageBox.Ok)
+        else:
+            cur.execute('''UPDATE sample SET name=?,cid=?,designation=?,gender=? WHERE cid=?''',(name,cid,designation,gender,cid,))
+            connection.commit()
+            connection.close()
+            QtWidgets.QMessageBox.information(self,"Successfull","You have successfully updated a new person",
+                QtWidgets.QMessageBox.Ok)
+
 
 
 if __name__ == "__main__":
