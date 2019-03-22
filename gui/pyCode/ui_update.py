@@ -109,7 +109,7 @@ class Ui_update(QtWidgets.QMainWindow):
 
         if status is 0:
             connection.close()
-            QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, person could not be updated",
+            QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, Please enter all the fields",
                 QtWidgets.QMessageBox.Ok)
         else:
             cur.execute('''UPDATE sample SET name=?,cid=?,designation=?,gender=? WHERE cid=?''',(name,cid,designation,gender,cid,))
@@ -117,7 +117,7 @@ class Ui_update(QtWidgets.QMainWindow):
             if check is 1:
                 connection.commit()
                 connection.close()
-                QtWidgets.QMessageBox.information(self,"Successfull","You have successfully updated a new person",
+                QtWidgets.QMessageBox.information(self,"Successfull","You have successfully updated a person with cid {}".format(cid),
                     QtWidgets.QMessageBox.Ok)
             else:
                 connection.close()
