@@ -118,7 +118,7 @@ class Ui_mainWindow(QtWidgets.QMainWindow):
         self.btn_exit.setText(_translate("mainWindow", "EXIT"))
 
     def close_SSS(self):
-        choice = QtWidgets.QMessageBox.question(self,"QuitApp","Are you sure to quit?",
+        choice = QtWidgets.QMessageBox.question(self,"QuitApp","Are you sure that you want to quit the application?",
                 QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
         if choice == QtWidgets.QMessageBox.Yes:
             sys.exit()

@@ -9,7 +9,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sqlite3 
 
-class Ui_remove(object):
+class Ui_remove(QtWidgets.QMainWindow):
     def setupUi(self, remove):
         remove.setObjectName("remove")
         remove.resize(398, 277)
@@ -35,10 +35,39 @@ class Ui_remove(object):
         self.buttonBox.rejected.connect(remove.reject)
         QtCore.QMetaObject.connectSlotsByName(remove)
 
+        self.buttonBox.accepted.connect(self.insertDelete)
+
     def retranslateUi(self, remove):
         _translate = QtCore.QCoreApplication.translate
         remove.setWindowTitle(_translate("remove", "Delete"))
         self.label.setText(_translate("remove", "Enter CID"))
+
+    def insertDelete(self):
+        status=1
+        connection = sqlite3.connect('mySSS.db')
+        cur = connection.cursor() 
+        cid = self.cid.text()
+
+        #Validating whether all the values are set or not. If set the person is added to database else not added
+        if cid == "":
+            status=0
+
+        if status is 0:
+            connection.close()
+            QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, person could not be deleted",
+                QtWidgets.QMessageBox.Ok)
+        else:
+            cur.execute('''DELETE FROM sample WHERE cid=?''',(cid,))
+            check=cur.rowcount
+            if check is 1:
+                connection.commit()
+                connection.close()
+                QtWidgets.QMessageBox.information(self,"Successfull","You have successfully added a new person",
+                    QtWidgets.QMessageBox.Ok)
+            else:
+                connection.close()
+                QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, person could not be deleted",
+                    QtWidgets.QMessageBox.Ok)
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sqlite3
 
-class Ui_addNew(object):
+class Ui_addNew(QtWidgets.QMainWindow):
     def setupUi(self, addNew):
         addNew.setObjectName("addNew")
         addNew.resize(455, 301)
@@ -30,14 +30,6 @@ class Ui_addNew(object):
         self.label_5 = QtWidgets.QLabel(addNew)
         self.label_5.setObjectName("label_5")
         self.formLayout.setWidget(10, QtWidgets.QFormLayout.LabelRole, self.label_5)
-        self.label_4 = QtWidgets.QLabel(addNew)
-        self.label_4.setObjectName("label_4")
-        self.formLayout.setWidget(13, QtWidgets.QFormLayout.LabelRole, self.label_4)
-        self.buttonBox = QtWidgets.QDialogButtonBox(addNew)
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
-        self.formLayout.setWidget(14, QtWidgets.QFormLayout.SpanningRole, self.buttonBox)
         self.name = QtWidgets.QLineEdit(addNew)
         self.name.setObjectName("name")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.name)
@@ -49,10 +41,23 @@ class Ui_addNew(object):
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_3)
         self.male = QtWidgets.QRadioButton(addNew)
         self.male.setObjectName("male")
+        self.male.setChecked(True)
         self.formLayout.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.male)
         self.designation = QtWidgets.QLineEdit(addNew)
         self.designation.setObjectName("designation")
         self.formLayout.setWidget(10, QtWidgets.QFormLayout.FieldRole, self.designation)
+        self.imagePath = QtWidgets.QLineEdit(addNew)
+        self.imagePath.setObjectName("imagePath")
+        self.formLayout.setWidget(13, QtWidgets.QFormLayout.FieldRole, self.imagePath)
+        self.buttonBox = QtWidgets.QDialogButtonBox(addNew)
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.formLayout.setWidget(14, QtWidgets.QFormLayout.FieldRole, self.buttonBox)
+        self.image_btn = QtWidgets.QPushButton(addNew)
+        self.image_btn.setObjectName("image_btn")
+        self.image_btn.clicked.connect(self.openImage)
+        self.formLayout.setWidget(13, QtWidgets.QFormLayout.LabelRole, self.image_btn)
 
         self.retranslateUi(addNew)
         self.buttonBox.accepted.connect(addNew.accept)
@@ -68,25 +73,52 @@ class Ui_addNew(object):
         self.label_2.setText(_translate("addNew", "Gender"))
         self.female.setText(_translate("addNew", "Female"))
         self.label_5.setText(_translate("addNew", "Designation"))
-        self.label_4.setText(_translate("addNew", "Image"))
         self.label_3.setText(_translate("addNew", "CID"))
         self.male.setText(_translate("addNew", "Male"))
+        self.image_btn.setText(_translate("addNew", "Click to choose Image"))
+
+    def openImage(self):
+        filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Choose Image')[0]
+        self.imagePath.setText(filename)
 
     def insertAddNew(self):
+        data = list()
+        status=1
         connection = sqlite3.connect('mySSS.db')
         cur = connection.cursor() 
         name = self.name.text()
+        data.append(name)
+
         cid = self.cid.text()
+        data.append(cid)
+
         designation = self.designation.text()
-        print(type(name))
-        print(type(cid))
-        print(type(designation))
-        print(name,cid,designation)
-        cur.execute('''INSERT INTO sample(name,cid,designation) VALUES(?,?,?)''',(name,cid,designation,))
-        connection.commit()
-        connection.close()
+        data.append(designation)
 
+        if self.male.isChecked() == True:
+            gender='male'
+        else:
+            gender='female'
+        data.append(gender)
+        imagePath=self.imagePath.text()
+        data.append(imagePath)
+        
+        #Validating whether all the values are set or not. If set the person is added to database else not added
+        for value in data:
+            if value == "":
+                status=0
+                break
 
+        if status is 0:
+            connection.close()
+            QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, person could not be added",
+                QtWidgets.QMessageBox.Ok)
+        else:
+            cur.execute('''INSERT INTO sample(name,cid,designation,gender,imagePath) VALUES(?,?,?,?,?)''',(name,cid,designation,gender,imagePath,))
+            connection.commit()
+            connection.close()
+            QtWidgets.QMessageBox.information(self,"Successfull","You have successfully added a new person",
+                QtWidgets.QMessageBox.Ok)
 
 
 if __name__ == "__main__":
