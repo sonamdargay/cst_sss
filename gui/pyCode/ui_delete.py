@@ -66,7 +66,7 @@ class Ui_remove(QtWidgets.QMainWindow):
                     QtWidgets.QMessageBox.Ok)
             else:
                 connection.close()
-                QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, person with CID could not be deleted".format(cid),
+                QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, person with CID {} could not be deleted".format(cid),
                     QtWidgets.QMessageBox.Ok)
 
 

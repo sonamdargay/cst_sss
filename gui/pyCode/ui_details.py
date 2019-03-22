@@ -47,7 +47,7 @@ class Ui_Details(QtWidgets.QMainWindow):
         self.gridLayout.addWidget(self.designation, 5, 1, 1, 1)
         self.buttonBox = QtWidgets.QDialogButtonBox(Details)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.gridLayout.addWidget(self.buttonBox, 6, 1, 1, 1)
         '''
@@ -61,7 +61,6 @@ class Ui_Details(QtWidgets.QMainWindow):
         '''
         self.retranslateUi(Details)
         self.buttonBox.accepted.connect(Details.accept)
-        self.buttonBox.rejected.connect(Details.reject)
         QtCore.QMetaObject.connectSlotsByName(Details)
 
     def retranslateUi(self, Details):

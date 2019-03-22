@@ -121,7 +121,7 @@ class Ui_update(QtWidgets.QMainWindow):
                     QtWidgets.QMessageBox.Ok)
             else:
                 connection.close()
-                QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, person could not be updated",
+                QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, person could not be updated with CID {}".format(cid),
                     QtWidgets.QMessageBox.Ok)
 
 
