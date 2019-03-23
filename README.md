@@ -76,4 +76,9 @@ AttributeError: module 'cv2.cv2' has no attribute 'face'
         #pip install opencv-contrib-python
 <pre> 
 
+<b>OR perform</b>
+<pre> 
+        #sudo modprobe bcm2835-v4l2
+<pre>
+
 It should work after that.
