@@ -57,7 +57,7 @@ class Ui_remove(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, Please enter the CID number of the person ",
                 QtWidgets.QMessageBox.Ok)
         else:
-            cur.execute('''DELETE FROM sample WHERE cid=?''',(cid,))
+            cur.execute('''DELETE FROM Person WHERE cid=?''',(cid,))
             check=cur.rowcount
             if check is 1:
                 connection.commit()

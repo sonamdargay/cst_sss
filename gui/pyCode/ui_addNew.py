@@ -114,7 +114,7 @@ class Ui_addNew(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, person could not be added. Please fill all the fields.",
                 QtWidgets.QMessageBox.Ok)
         else:
-            cur.execute('''INSERT INTO sample(name,cid,designation,gender,imagePath) VALUES(?,?,?,?,?)''',(name,cid,designation,gender,imagePath,))
+            cur.execute('''INSERT INTO Person(name,cid,designation,gender,imagePath) VALUES(?,?,?,?,?)''',(name,cid,designation,gender,imagePath,))
             connection.commit()
             connection.close()
             QtWidgets.QMessageBox.information(self,"Successfull","You have successfully added a new person with CID {}".format(cid),

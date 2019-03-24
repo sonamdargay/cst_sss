@@ -112,7 +112,7 @@ class Ui_update(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, Please enter all the fields",
                 QtWidgets.QMessageBox.Ok)
         else:
-            cur.execute('''UPDATE sample SET name=?,cid=?,designation=?,gender=? WHERE cid=?''',(name,cid,designation,gender,cid,))
+            cur.execute('''UPDATE Person SET name=?,cid=?,designation=?,gender=? WHERE cid=?''',(name,cid,designation,gender,cid,))
             check = cur.rowcount
             if check is 1:
                 connection.commit()

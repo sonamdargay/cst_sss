@@ -81,7 +81,7 @@ class Ui_view(QtWidgets.QMainWindow):
                 QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, Please give CID number to view the information",
                     QtWidgets.QMessageBox.Ok)
             else:
-                cur.execute('''SELECT * FROM sample WHERE cid=?''',(cid,))
+                cur.execute('''SELECT * FROM Person WHERE cid=?''',(cid,))
                 self.rows = cur.fetchone()
                 if self.rows is None:
                     connection.close()
