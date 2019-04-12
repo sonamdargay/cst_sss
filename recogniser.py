@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
 import os 
+import smtplib
+
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read('trainer/trainer.yml')
 cascadePath = "cascades/haarcascade_frontalface_default.xml"
@@ -43,7 +45,14 @@ while True:
             id = "unknown"
             #confidence = "  {0}%".format(round(100 - confidence))
             confidence = "  {0}%".format(round(100 - confidence))
-        
+            if id=="unknown":
+                server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+                server.login("cst.sss101@gmail.com", "Raspberrypi")
+                server.sendmail(
+                "cst.sss101@gmail.com", 
+                "0215538.cst@rub.edu.bt", 
+                "Unknown FOund!")
+                server.quit()
         cv2.putText(img, str(id), (x+5,y-5), font, 1, (255,255,255), 2)
         cv2.putText(img, str(confidence), (x+5,y+h-5), font, 1, (255,255,0), 1)  
     
