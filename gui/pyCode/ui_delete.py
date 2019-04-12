@@ -54,19 +54,19 @@ class Ui_remove(QtWidgets.QMainWindow):
 
         if status is 0:
             connection.close()
-            QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, person could not be deleted",
+            QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, Please enter the CID number of the person ",
                 QtWidgets.QMessageBox.Ok)
         else:
-            cur.execute('''DELETE FROM sample WHERE cid=?''',(cid,))
+            cur.execute('''DELETE FROM Person WHERE cid=?''',(cid,))
             check=cur.rowcount
             if check is 1:
                 connection.commit()
                 connection.close()
-                QtWidgets.QMessageBox.information(self,"Successfull","You have successfully added a new person",
+                QtWidgets.QMessageBox.information(self,"Successfull","You have successfully deleted a person with CID {}".format(cid),
                     QtWidgets.QMessageBox.Ok)
             else:
                 connection.close()
-                QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, person could not be deleted",
+                QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, person with CID {} could not be deleted".format(cid),
                     QtWidgets.QMessageBox.Ok)
 
 
