@@ -40,11 +40,11 @@ def VideoPlayer():
             if (confidence < 100):
                 id = names[id]
                 #confidence = "  {0}%".format(round(100 - confidence))
-                confidence = "  {0}%".format(round(confidence))
+                confidence = " hi {0}%".format(round(confidence))
             else:
                 id = "unknown"
                 #confidence = "  {0}%".format(round(100 - confidence))
-                confidence = "  {0}%".format(round(100 - confidence))
+                confidence = " bye {0}%".format(round(100 - confidence))
                 if id=="unknown":
                     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
                     server.login("cst.sss101@gmail.com", "Raspberrypi")
