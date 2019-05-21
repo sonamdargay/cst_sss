@@ -1,8 +1,8 @@
-import sys
+import sys,os
 from os import path
 import sqlite3
 import datetime
-from time import clock
+import fnmatch
 #import smtplib
 
 import cv2
@@ -207,10 +207,11 @@ class MainWidget(QtWidgets.QWidget):
         self.record_video.start_recording()
         connection = sqlite3.connect('mySSS.db')
         cur = connection.cursor() 
-        
-        knownP=2
-        unknownP=3
-        totalP=5
+        cur.execute("SELECT * FROM Person")
+        result = cur.fetchall()
+        knownP=len(result)
+        unknownP=sum([len(files) for r, d, files in os.walk("unknown/")])
+        totalP=knownP + unknownP
         innerlayoutB = QtWidgets.QHBoxLayout()
         self.known = QtWidgets.QLabel('Known : {}'.format(knownP))
         innerlayoutB.addWidget(self.known)
