@@ -116,7 +116,6 @@ class FaceDetectionWidget(QtWidgets.QWidget):
 
                 time_stamp = datetime.datetime.now()
                 id_number=id
-
                 cur.execute("SELECT * FROM Time_Log ORDER BY count DESC LIMIT 1")
                 result = cur.fetchone()
                 if result[0] != str(id_number):
@@ -202,9 +201,26 @@ class MainWidget(QtWidgets.QWidget):
         self.record_video.image_data.connect(image_data_slot)
 
         layoutL = QtWidgets.QVBoxLayout()
+        innerlayoutT = QtWidgets.QVBoxLayout()
 
-        layoutL.addWidget(self.face_detection_widget)
+        innerlayoutT.addWidget(self.face_detection_widget)
         self.record_video.start_recording()
+        connection = sqlite3.connect('mySSS.db')
+        cur = connection.cursor() 
+        
+        knownP=2
+        unknownP=3
+        totalP=5
+        innerlayoutB = QtWidgets.QHBoxLayout()
+        self.known = QtWidgets.QLabel('Known : {}'.format(knownP))
+        innerlayoutB.addWidget(self.known)
+        self.unknown = QtWidgets.QLabel('Unknown : {}'.format(unknownP))
+        innerlayoutB.addWidget(self.unknown)
+        self.total = QtWidgets.QLabel('Total : {}'.format(totalP))
+        innerlayoutB.addWidget(self.total)
+
+        layoutL.addLayout(innerlayoutT)
+        layoutL.addLayout(innerlayoutB)
         '''
         self.run_button = QtWidgets.QPushButton('Start')
         layoutL.addWidget(self.run_button)
