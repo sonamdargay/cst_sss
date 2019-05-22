@@ -5,6 +5,8 @@ import datetime
 import fnmatch
 #import smtplib
 
+import pyttsx3 #for sound
+
 import cv2
 import numpy as np
 sys.path.append('gui/')
@@ -82,11 +84,11 @@ class FaceDetectionWidget(QtWidgets.QWidget):
             id, confidence = recognizer.predict(gray[y:y+h,x:x+w])
             # Check if confidence is less them 100 ==> "0" is perfect match for 'confidence = "  {0}%".format(round(100 - confidence))'
             # Confidence 
-            if (confidence < 100):
+            if (confidence < 50):
                 ids=id
                 id = names[id][0]
                 #confidence = "  {0}%".format(round(100 - confidence))
-                confidence = "  {0}%".format(round(confidence))
+                confidence = "  {0}%".format(round(100 - confidence))
 
                 #We are storing the time stamp of person whenever recognised.
                 connection = sqlite3.connect('mySSS.db')
@@ -133,6 +135,11 @@ class FaceDetectionWidget(QtWidgets.QWidget):
                     "Unknown FOund!")
                     server.quit()
                 '''
+                #for sound
+                engine = pyttsx3.init()
+                engine.say('Unknown found!')
+                engine.runAndWait()
+
             cv2.putText(img, str(id), (x+5,y-5), font, 1, (255,255,255), 2)
             cv2.putText(img, str(confidence), (x+5,y+h-5), font, 1, (255,255,0), 1)  
 
