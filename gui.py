@@ -24,7 +24,6 @@ class RecordVideo(QtCore.QObject):
     def __init__(self, camera_port=0, parent=None):
         super().__init__(parent)
         self.camera = cv2.VideoCapture(camera_port)
-
         self.timer = QtCore.QBasicTimer()
 
     def start_recording(self):
@@ -33,12 +32,9 @@ class RecordVideo(QtCore.QObject):
     def timerEvent(self, event):
         if (event.timerId() != self.timer.timerId()):
             return
-
         read, data = self.camera.read()
         if read:
             self.image_data.emit(data)
-
-
 
 class FaceDetectionWidget(QtWidgets.QWidget):
     def __init__(self, haar_cascade_filepath, parent=None):
@@ -47,9 +43,8 @@ class FaceDetectionWidget(QtWidgets.QWidget):
         self.image = QtGui.QImage()
         self._red = (0, 0, 255)
         self._width = 2
-        self._min_size = (30, 30)
+        self._min_size = (20, 20)
         
-
     def detect_faces(self, image: np.ndarray):
         # haarclassifiers work better in black and white
         value=[]
@@ -58,11 +53,10 @@ class FaceDetectionWidget(QtWidgets.QWidget):
         value.append(gray_image)
         faces = self.classifier.detectMultiScale(gray_image,
                                                  scaleFactor=1.3,
-                                                 minNeighbors=4,
+                                                 minNeighbors=5,
                                                  flags=cv2.CASCADE_SCALE_IMAGE,
                                                  minSize=self._min_size)
         value.append(faces)
-
         return value
 
     def image_data_slot(self, image_data):
@@ -73,22 +67,25 @@ class FaceDetectionWidget(QtWidgets.QWidget):
         faces=value1[1]
         gray=value1[0]
         id=0
-        names = [['None','12345678913'],['Suraj Mukhia','21309000371'],['Tokari','12345678912']]
+        names = [['None','12345678913'],['Suraj Mukhia','21309000371'],['Sonam','12345678912']]
+        
+        #init sound engine
+        engine = pyttsx3.init()
+
         for (x, y, w, h) in faces:
             img=cv2.rectangle(image_data,
                           (x, y),
                           (x+w, y+h),
                           self._red,
                           self._width)
-
             id, confidence = recognizer.predict(gray[y:y+h,x:x+w])
             # Check if confidence is less them 100 ==> "0" is perfect match for 'confidence = "  {0}%".format(round(100 - confidence))'
             # Confidence 
-            if (confidence < 50):
+            if (confidence < 100):
                 ids=id
                 id = names[id][0]
                 #confidence = "  {0}%".format(round(100 - confidence))
-                confidence = "  {0}%".format(round(100 - confidence))
+                confidence = "  {0}%".format(round(confidence))
 
                 #We are storing the time stamp of person whenever recognised.
                 connection = sqlite3.connect('mySSS.db')
@@ -103,11 +100,12 @@ class FaceDetectionWidget(QtWidgets.QWidget):
                     cur.execute('''INSERT INTO Time_Log(cid,time_stamp) VALUES(?,?)''',(id_number,time_stamp))
                     connection.commit()
                     connection.close()
+                cv2.putText(img, str(confidence), (x+5,y+h-5), font, 1, (255,255,0), 1)  
 
             else:
                 id = "unknown"
                 #confidence = "  {0}%".format(round(100 - confidence))
-                confidence = "  {0}%".format(round(100 - confidence))
+                #confidence = "  {0}%".format(round(confidence))
 
                 time=datetime.datetime.now().strftime("%Y%m%d%H%M%S")
                 cv2.imwrite('unknown/unknown'+"_"+str(time)+".jpg",gray[y:y+h,x:x+w])
@@ -120,11 +118,13 @@ class FaceDetectionWidget(QtWidgets.QWidget):
                 id_number=id
                 cur.execute("SELECT * FROM Time_Log ORDER BY count DESC LIMIT 1")
                 result = cur.fetchone()
+
                 if result[0] != str(id_number):
                     cur.execute('''INSERT INTO Time_Log(cid,time_stamp) VALUES(?,?)''',(id_number,time_stamp))
                     connection.commit()
                     connection.close()
 
+                #for mail alerting
                 '''
                 if id=="unknown":
                     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
@@ -135,18 +135,19 @@ class FaceDetectionWidget(QtWidgets.QWidget):
                     "Unknown FOund!")
                     server.quit()
                 '''
+                
                 #for sound
-                engine = pyttsx3.init()
                 engine.say('Unknown found!')
-                engine.runAndWait()
 
-            cv2.putText(img, str(id), (x+5,y-5), font, 1, (255,255,255), 2)
-            cv2.putText(img, str(confidence), (x+5,y+h-5), font, 1, (255,255,0), 1)  
+            cv2.putText(img, str(id), (x+5,y-5), font, 1, (255,255,255), 2) 
+            #cv2.putText(img, str(confidence), (x+5,y+h-5), font, 1, (255,255,0), 1)  #prints confidence both for known & unknown
+        
+        #sound engine run
+        engine.runAndWait()
 
         self.image = self.get_qimage(image_data)
         if self.image.size() != self.size():
             self.setFixedSize(self.image.size())
-
         self.update()
 
     def get_qimage(self, image: np.ndarray):
@@ -159,7 +160,6 @@ class FaceDetectionWidget(QtWidgets.QWidget):
                        height,
                        bytesPerLine,
                        QImage.Format_RGB888)
-
         image = image.rgbSwapped()
         return image
 
@@ -167,7 +167,6 @@ class FaceDetectionWidget(QtWidgets.QWidget):
         painter = QtGui.QPainter(self)
         painter.drawImage(0, 0, self.image)
         self.image = QtGui.QImage()
-
 
 class MainWidget(QtWidgets.QWidget):
 
