@@ -20,6 +20,11 @@ class Ui_view(QtWidgets.QMainWindow):
         self.ui.cid.setText(self.rows[1])
         self.ui.gender.setText(self.rows[3])
         self.ui.designation.setText(self.rows[2])
+        timeStr=[]
+        for value in self.timeLog:
+            timeStr.append(value[1])
+        timeStr = '\n'.join(timeStr)
+        self.ui.time_log.setText(timeStr)
         img=self.rows[4]
 
         scene = QtWidgets.QGraphicsScene() 
@@ -88,6 +93,8 @@ class Ui_view(QtWidgets.QMainWindow):
                     QtWidgets.QMessageBox.warning(self,"Unsuccessfull","Sorry, We don't have any information about {}".format(cid),
                         QtWidgets.QMessageBox.Ok)
                 else:
+                    cur.execute('''SELECT * FROM Time_Log WHERE cid=?''',(cid,))
+                    self.timeLog = cur.fetchall()
                     connection.commit()
                     self.openDetails()
                     connection.close()

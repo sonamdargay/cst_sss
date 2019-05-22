@@ -2,6 +2,7 @@ import sys,os
 from os import path
 import sqlite3
 import datetime
+import fnmatch
 #import smtplib
 
 import cv2
@@ -69,7 +70,8 @@ class FaceDetectionWidget(QtWidgets.QWidget):
         value1 = self.detect_faces(image_data)
         faces=value1[1]
         gray=value1[0]
-        names = ['None','Suraj Mukhia','Tshering Jamtsho']
+        id=0
+        names = [['None','12345678913'],['Suraj Mukhia','21309000371'],['Tokari','12345678912']]
         for (x, y, w, h) in faces:
             img=cv2.rectangle(image_data,
                           (x, y),
@@ -81,14 +83,56 @@ class FaceDetectionWidget(QtWidgets.QWidget):
             # Check if confidence is less them 100 ==> "0" is perfect match for 'confidence = "  {0}%".format(round(100 - confidence))'
             # Confidence 
             if (confidence < 100):
-                id = names[id]
+                ids=id
+                id = names[id][0]
                 #confidence = "  {0}%".format(round(100 - confidence))
                 confidence = "  {0}%".format(round(confidence))
+
+                #We are storing the time stamp of person whenever recognised.
+                connection = sqlite3.connect('mySSS.db')
+                cur = connection.cursor()
+
+                time_stamp = datetime.datetime.now()
+                id_number=names[ids][1]
+
+                cur.execute("SELECT * FROM Time_Log ORDER BY count DESC LIMIT 1")
+                result = cur.fetchone()
+                if result[0] != str(id_number):
+                    cur.execute('''INSERT INTO Time_Log(cid,time_stamp) VALUES(?,?)''',(id_number,time_stamp))
+                    connection.commit()
+                    connection.close()
+
             else:
                 id = "unknown"
                 #confidence = "  {0}%".format(round(100 - confidence))
                 confidence = "  {0}%".format(round(100 - confidence))
 
+                time=datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+                cv2.imwrite('unknown/unknown'+"_"+str(time)+".jpg",gray[y:y+h,x:x+w])
+
+                #We are storing the time stamp of person whenever recognised.
+                connection = sqlite3.connect('mySSS.db')
+                cur = connection.cursor()
+
+                time_stamp = datetime.datetime.now()
+                id_number=id
+                cur.execute("SELECT * FROM Time_Log ORDER BY count DESC LIMIT 1")
+                result = cur.fetchone()
+                if result[0] != str(id_number):
+                    cur.execute('''INSERT INTO Time_Log(cid,time_stamp) VALUES(?,?)''',(id_number,time_stamp))
+                    connection.commit()
+                    connection.close()
+
+                '''
+                if id=="unknown":
+                    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+                    server.login("cst.sss101@gmail.com", "Raspberrypi")
+                    server.sendmail(
+                    "cst.sss101@gmail.com", 
+                    "0215538.cst@rub.edu.bt", 
+                    "Unknown FOund!")
+                    server.quit()
+                '''
             cv2.putText(img, str(id), (x+5,y-5), font, 1, (255,255,255), 2)
             cv2.putText(img, str(confidence), (x+5,y+h-5), font, 1, (255,255,0), 1)  
 
@@ -146,6 +190,7 @@ class MainWidget(QtWidgets.QWidget):
 
     def __init__(self, haarcascade_filepath, parent=None):
         super().__init__(parent)
+
         fp = haarcascade_filepath
         self.face_detection_widget = FaceDetectionWidget(fp)
 
@@ -185,9 +230,9 @@ class MainWidget(QtWidgets.QWidget):
 
         layoutR = QtWidgets.QVBoxLayout()
 
-        self.btn_add = QtWidgets.QPushButton("ADD NEW")
-        layoutR.addWidget(self.btn_add)
-        self.btn_add.clicked.connect(self.openAddNew)
+        #self.btn_add = QtWidgets.QPushButton("ADD NEW")
+        #layoutR.addWidget(self.btn_add)
+        #self.btn_add.clicked.connect(self.openAddNew)
 
         self.btn_delete = QtWidgets.QPushButton("DELETE")
         layoutR.addWidget(self.btn_delete)
