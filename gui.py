@@ -5,8 +5,6 @@ import datetime
 import fnmatch
 #import smtplib
 
-import pyttsx3 #for sound
-
 import cv2
 import numpy as np
 sys.path.append('gui/')
@@ -53,7 +51,7 @@ class FaceDetectionWidget(QtWidgets.QWidget):
         value.append(gray_image)
         faces = self.classifier.detectMultiScale(gray_image,
                                                  scaleFactor=1.3,
-                                                 minNeighbors=5,
+                                                 minNeighbors=4,
                                                  flags=cv2.CASCADE_SCALE_IMAGE,
                                                  minSize=self._min_size)
         value.append(faces)
@@ -67,10 +65,8 @@ class FaceDetectionWidget(QtWidgets.QWidget):
         faces=value1[1]
         gray=value1[0]
         id=0
-        names = [['None','12345678913'],['Suraj Mukhia','21309000371'],['Sonam','12345678912']]
+        names = [['unknown','12345678913'],['Suraj Mukhia','21309000371'],['Sonam Dargay','12345678912'],['Karma Samdrup','23456789123'],['Tawmo','34567891234'],['Tak Nath','45678912345']]
         
-        #init sound engine
-        engine = pyttsx3.init()
 
         for (x, y, w, h) in faces:
             img=cv2.rectangle(image_data,
@@ -137,13 +133,11 @@ class FaceDetectionWidget(QtWidgets.QWidget):
                 '''
                 
                 #for sound
-                engine.say('Unknown found!')
+                #os.system("espeak 'Unknow Found'")
 
             cv2.putText(img, str(id), (x+5,y-5), font, 1, (255,255,255), 2) 
             #cv2.putText(img, str(confidence), (x+5,y+h-5), font, 1, (255,255,0), 1)  #prints confidence both for known & unknown
         
-        #sound engine run
-        engine.runAndWait()
 
         self.image = self.get_qimage(image_data)
         if self.image.size() != self.size():
@@ -228,11 +222,6 @@ class MainWidget(QtWidgets.QWidget):
 
         layoutL.addLayout(innerlayoutT)
         layoutL.addLayout(innerlayoutB)
-        '''
-        self.run_button = QtWidgets.QPushButton('Start')
-        layoutL.addWidget(self.run_button)
-        self.run_button.clicked.connect(self.record_video.start_recording)
-        '''
 
         layoutR = QtWidgets.QVBoxLayout()
 
