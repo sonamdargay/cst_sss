@@ -124,10 +124,10 @@ class FaceDetectionWidget(QtWidgets.QWidget):
                 '''
                 if id=="unknown":
                     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-                    server.login("cst.sss101@gmail.com", "Raspberrypi")
+                    server.login("email address here", "password")
                     server.sendmail(
-                    "cst.sss101@gmail.com", 
-                    "0215538.cst@rub.edu.bt", 
+                    "example1@gmail.com", 
+                    "example2@gmail.com", 
                     "Unknown FOund!")
                     server.quit()
                 '''
